@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { nanoid } from 'nanoid/non-secure';
+
 import { ContactsForm } from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import { ContactList } from './ContactList/ContactList';
@@ -13,10 +17,12 @@ export const App = () => {
   );
   const [filter, setFilter] = useState('');
 
+  const notify = name => toast.error(`${name} is already in contacts.`);
+
   const onAddPhoneBook = contact => {
     const namePhone = contacts.find(({ name }) => contact.name === name);
     if (namePhone) {
-      alert(`${contact.name} is already in contacts.`);
+      notify(contact.name);
       return;
     }
     const contactList = {
@@ -52,6 +58,7 @@ export const App = () => {
         filteredContacts={filteredContacts}
         onClick={onRemoveContact}
       />
+      <ToastContainer position="top-center" theme="colored" />
     </>
   );
 };
